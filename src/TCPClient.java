@@ -18,13 +18,30 @@ public class TCPClient {
 //		s1In.close();
 //		s1.close();
 //		//		4.close
-		BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
+		query(s1);
 		
+		output(s1);
+		
+		s1.close();
+	}
+	
+	public static void query(Socket s1) throws IOException {
+		Scanner scanner = new Scanner(System.in);
+		String wordToSearch = scanner.nextLine();
+		scanner.close();
+		
+		BufferedWriter out = new BufferedWriter(new OutputStreamWriter(s1.getOutputStream()));
+		out.write(wordToSearch);
+		out.newLine();
+		out.flush(); 
+	}
+	
+	public static void output(Socket s1) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(s1.getInputStream()));
 		String csv = in.readLine();
 		System.out.println("Received CSV: " + csv);
 		
 		List<String> words = Arrays.asList(csv.split(","));
-
         System.out.println("Converted to List: " + words);
         in.close();
 	}
